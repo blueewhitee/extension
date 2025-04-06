@@ -1,35 +1,47 @@
+
 {
-  "manifest_version": 3,
-  "name": "YouTube Video Info",
-  "version": "1.0",
-  "description": "Scrapes YouTube video metadata.",
-  "action": {
-      "default_popup": "popup.html"
-  },
-  "background": {
-      "service_worker": "background.js",
-      "type": "module"
-  },
-  "content_scripts": [
-      {
-          "matches": [
-              "*://www.youtube.com/watch*",
-              "*://www.youtube.com/shorts*"
-          ],
-          "js": ["content.js"]
-      }
-  ],
-  "permissions": [
-      "activeTab",
-      "scripting",
-      "storage"
-  ],
-  "host_permissions": [
-      "https://www.youtube.com/*",
-      "https://www.googleapis.com/*"
-  ],
-  "web_accessible_resources": [{
-      "resources": ["videoCategories.json"],
-      "matches": ["<all_urls>"]
-  }]
-}
+    "manifest_version": 3,
+    "name": "YouTube Digital Wellbeing",
+    "version": "1.0",
+    "description": "Manage your time on YouTube by intelligently tracking productive and distracting content.",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.youtube.com/*"
+            ],
+            "js": ["config.js", "content.js"],
+            "css": ["styles.css"],
+            "type": "module"
+        }
+    ],
+    "permissions": [        
+        "activeTab",
+        "scripting",
+        "storage",
+        "alarms"
+    ],
+    "host_permissions": [
+        "https://www.youtube.com/*",
+        "https://www.googleapis.com/*",
+        "https://generativelanguage.googleapis.com/*"
+    ],
+    "web_accessible_resources": [{
+        "resources": ["videoCategories.json", "icons/*", "config.js"],
+        "matches": ["<all_urls>"]
+    }],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+  }

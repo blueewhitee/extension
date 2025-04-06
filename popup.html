@@ -1,24 +1,190 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>YouTube Video Info</title>
+    <title>YouTube Digital Wellbeing</title>
     <style>
         body {
             width: 400px;
             padding: 10px;
+            font-family: Arial, sans-serif;
         }
-        #results {
-            margin-top: 10px;
+        
+        h1 {
+            color: #cc0000;
+            font-size: 18px;
         }
+        
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            transition: 0.3s;
+        }
+        
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        
+        .tab button.active {
+            background-color: #cc0000;
+            color: white;
+        }
+        
+        .tabcontent {
+            display: none;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .button {
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 8px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .timer {
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .timer-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .upload-section {
+            margin: 10px 0;
+        }
+        
+        .category-section {
+            margin-top: 15px;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
         .error {
             color: red;
+            font-size: 12px;
+        }
+        
+        .success {
+            color: green;
+            font-size: 12px;
+        }
+        
+        progress {
+            width: 100%;
+            height: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>YouTube Video Info</h1>
-    <button id="scrapeButton">Scrape Video Info</button>
-    <div id="results"></div>
-    <script src="popup.js"></script>
+    <h1>YouTube Digital Wellbeing</h1>
+    
+    <div class="tab">
+        <button class="tablinks active" id="timerTabButton">Timers</button>
+        <button class="tablinks" id="analyticsTabButton">Analytics</button>
+        <button class="tablinks" id="settingsTabButton">Settings</button>
+    </div>
+    
+    <div id="TimerTab" class="tabcontent" style="display: block;">
+        <div class="timer">
+            <div>Entertainment</div>
+            <div class="timer-value" id="entertainment-timer">30:00</div>
+            <progress id="entertainment-progress" value="100" max="100"></progress>
+        </div>
+        
+        <div class="timer">
+            <div>Music</div>
+            <div class="timer-value" id="music-timer">15:00</div>
+            <progress id="music-progress" value="100" max="100"></progress>
+        </div>
+        
+        <div class="timer">
+            <div>Gaming</div>
+            <div class="timer-value" id="gaming-timer">20:00</div>
+            <progress id="gaming-progress" value="100" max="100"></progress>
+        </div>
+        
+        <div id="current-video-info">
+            <h3>Current Video</h3>
+            <div id="video-title">Not available</div>
+            <div id="video-category">Category: Unknown</div>
+            <div id="video-classification">Classification: --</div>
+        </div>
+    </div>
+    
+    <div id="AnalyticsTab" class="tabcontent">
+        <h3>Your Viewing Patterns</h3>
+        <div id="analytics-summary">
+            Loading analytics...
+        </div>
+        <div class="category-section">
+            <h4>Time Spent by Category</h4>
+            <div id="category-breakdown"></div>
+        </div>
+        <button class="button" id="exportDataButton">Export Data</button>
+    </div>
+    
+    <div id="SettingsTab" class="tabcontent">
+        <h3>Settings</h3>
+        <div class="settings-section">
+            <h3>Time Limits</h3>
+            <div class="category-item">
+                <span>Entertainment</span>
+                <input type="number" id="entertainment-limit" min="1" max="120" value="30"> mins
+            </div>
+            <div class="category-item">
+                <span>Music</span>
+                <input type="number" id="music-limit" min="1" max="120" value="15"> mins
+            </div>
+            <div class="category-item">
+                <span>Gaming</span>
+                <input type="number" id="gaming-limit" min="1" max="120" value="20"> mins
+            </div>
+
+            <h3>Options</h3>
+            <div class="option-item">
+                <input type="checkbox" id="enable-autoblock" checked>
+                <label for="enable-autoblock">Auto-block after time limit</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="hide-recommendations" checked>
+                <label for="hide-recommendations">Hide blocked category recommendations</label>
+            </div>
+
+            <button class="button" id="saveSettingsButton">Save Settings</button>
+        </div>
+    </div>
+    
+    <script type="module" src="popup.js"></script>
 </body>
 </html>
